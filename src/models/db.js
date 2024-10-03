@@ -11,6 +11,7 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,  // Añadir el puerto aquí
     dialect: process.env.DB_DIALECT, // Dialecto (mysql)
+    logging: false,
   }
 );
 
@@ -20,6 +21,15 @@ const sequelize = new Sequelize(
     console.log('Conexión a la base de datos exitosa.');
   } catch (error) {
     console.error('No se pudo conectar a la base de datos:', error);
+  }
+})();
+
+(async () => {
+  try {
+    await sequelize.sync({ force: false }); // Cambia a `true` solo si quieres reiniciar la base de datos
+    console.log('Las tablas han sido sincronizadas con éxito.');
+  } catch (error) {
+    console.error('Error al sincronizar las tablas:', error);
   }
 })();
 

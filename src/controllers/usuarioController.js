@@ -1,4 +1,4 @@
-const User = require('../models/users.model');
+const Usuario = require('../models/usuarios.model');
 const bcrypt = require('bcrypt');  // Asegúrate de encriptar contraseñas al almacenarlas
 const jwt = require('jsonwebtoken');
 
@@ -6,8 +6,8 @@ const jwtSecret = process.env.JWT_SECRET;
 
 exports.create = async (req, res) => {
   try {
-    const user = await User.create(req.body);
-    res.status(201).json(user);
+    const usuario = await Usuario.create(req.body);
+    res.status(201).json(usuario);
   } catch (error) {
     res.status(500).json({ error: 'Error al crear el usuario' });
   }
@@ -15,8 +15,8 @@ exports.create = async (req, res) => {
 
 exports.getAll = async (req, res) => {
   try {
-    const users = await User.findAll();
-    res.status(200).json(users);
+    const usuarios = await Usuario.findAll();
+    res.status(200).json(usuarios);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener los usuarios' });
   }
@@ -24,9 +24,9 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
-    res.status(200).json(user);
+    const usuario = await Usuario.findByPk(req.params.id);
+    if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
+    res.status(200).json(usuario);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener el usuario' });
   }
@@ -34,11 +34,11 @@ exports.getById = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+    const usuario = await Usuario.findByPk(req.params.id);
+    if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
 
-    await user.update(req.body);
-    res.status(200).json(user);
+    await usuario.update(req.body);
+    res.status(200).json(usuario);
   } catch (error) {
     res.status(500).json({ error: 'Error al actualizar el usuario' });
   }
@@ -46,10 +46,10 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+    const usuario = await Usuario.findByPk(req.params.id);
+    if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
 
-    await user.destroy();
+    await usuario.destroy();
     res.status(204).json();
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar el usuario' });
@@ -66,28 +66,28 @@ console.log(hashedPassword);
 
   try {
     // Busca el usuario por email
-    const user = await User.findOne({ where: { email } });
+    const usuario = await Usuario.findOne({ where: { email } });
 
-    if (!user) {
+    if (!usuario) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
     // Verifica la contraseña
-    const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = await bcrypt.compare(password, usuario.password);
 
     if (!validPassword) {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
 
     // Si es válido, genera un token o retorna los datos del usuario
-    const token = jwt.sign({ id_user: user.id_user, rol: user.rol }, jwtSecret, { expiresIn: '8h' });
+    const token = jwt.sign({ id_usuario: usuario.id_usuario, rol: usuario.rol }, jwtSecret, { expiresIn: '8h' });
 
     res.json({
-      id_user: user.id_user,
-      nombre: user.nombre,
-      apellido: user.apellido,
-      rol: user.rol,
-      email: user.email,
+      id_usuario: usuario.id_usuario,
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      rol: usuario.rol,
+      email: usuario.email,
       token: token  // Retorna un token si estás usando JWT
     });
   } catch (error) {

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
+const usuarioController = require('../controllers/usuarioController');
 
 /**
  * @swagger
@@ -44,9 +44,9 @@ const userController = require('../controllers/userController');
  *       500:
  *         description: Error al crear el usuario
  */
-router.post('/', userController.create);
+router.post('/', usuarioController.create);
 
-router.post('/login', userController.login);
+router.post('/login', usuarioController.login);
 
 /**
  * @swagger
@@ -79,7 +79,7 @@ router.post('/login', userController.login);
  *       500:
  *         description: Error al obtener los usuarios
  */
-router.get('/', userController.getAll);
+router.get('/', usuarioController.getAll);
 
 /**
  * @swagger
@@ -119,7 +119,7 @@ router.get('/', userController.getAll);
  *       500:
  *         description: Error al obtener el usuario
  */
-router.get('/:id', userController.getById);
+router.get('/:id', usuarioController.getById);
 
 /**
  * @swagger
@@ -159,7 +159,7 @@ router.get('/:id', userController.getById);
  *       500:
  *         description: Error al actualizar el usuario
  */
-router.put('/:id', userController.update);
+router.put('/:id', usuarioController.update);
 
 /**
  * @swagger
@@ -182,6 +182,6 @@ router.put('/:id', userController.update);
  *       500:
  *         description: Error al eliminar el usuario
  */
-router.delete('/:id', userController.delete);
+router.delete('/:id', usuarioController.delete);
 
 module.exports = router;

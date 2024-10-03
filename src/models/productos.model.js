@@ -7,50 +7,48 @@ const Producto = sequelize.define('Producto', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull: false
   },
   nombre: {
-    type: DataTypes.STRING(45),
-    allowNull: false
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   id_categoria: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   id_marca: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   id_modelo: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   id_color: {
     type: DataTypes.INTEGER,
-    allowNull: true
+    allowNull: true,
   },
   id_talla: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   precio_venta: {
-    type: DataTypes.STRING(10),
-    allowNull: false
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
   },
   precio_compra: {
     type: DataTypes.FLOAT,
-    allowNull: false
+    allowNull: false,
   },
   stock: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   fecha_registro: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    allowNull: true
-  }
-}, {
+  },
+},{
   tableName: 'productos',
   timestamps: false
 });

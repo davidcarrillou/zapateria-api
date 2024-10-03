@@ -1,9 +1,9 @@
+// models/color.js
 const { DataTypes } = require('sequelize');
-// Importa tu configuración de base de datos
 const sequelize = require('./db');
 
-const Marca = sequelize.define('Marca', {
-    id_marca: {
+const Color = sequelize.define('Color', {
+    id_color: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -11,18 +11,27 @@ const Marca = sequelize.define('Marca', {
     nombre: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
+    },
+    codigo_hex: {
+        type: DataTypes.STRING(7),
+        allowNull: true,
     },
     descripcion: {
         type: DataTypes.STRING(500),
         allowNull: true,
+    },
+    activo: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
     },
     fecha_registro: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
     },
 }, {
-    tableName: 'marcas', // Especifica el nombre de la tabla si no es pluralizado
-    timestamps: false // Para desactivar createdAt y updatedAt si no los usas
+    tableName: 'colores',
+    timestamps: false
 });
 
-module.exports = Marca;
+module.exports = Color;

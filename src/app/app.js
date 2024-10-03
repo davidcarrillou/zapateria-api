@@ -1,3 +1,4 @@
+const sequelize = require('../models/db');
 const express = require('express');
 const bodyParser = require('body-parser');
 const marcaRoutes = require('../routes/marca');
@@ -6,15 +7,19 @@ const categoriaRoutes = require('../routes/categoria');
 const modelosRoutes = require('../routes/modelos');
 const productosRoutes = require('../routes/productos');
 const proveedoresRoutes = require('../routes/proveedores');
-const usersRoutes = require('../routes/users');
+const usuariosRoutes = require('../routes/usuarios');
 const ventasRoutes = require('../routes/ventas');
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+const historialVentasRoutes = require('../routes/historialVentaRoutes');
+const colorRoutes = require('../routes/colores');
+const tallasRoutes = require('../routes/tallas');
+const { swaggerUi, swaggerSpec } = require('../config/swagger');
+
 const cors = require('cors');
 const path = require("path");
 const morgan = require('morgan');
 
 const app = express();
+
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 // Configuración de CORS para permitir todas las conexiones
@@ -24,27 +29,6 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'] // Encabezados permitidos
 }));
 
-// Configurar Swagger
-const swaggerOptions = {
-    swaggerDefinition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'zapateria API',
-            version: '1.0.0',
-            description: 'API para gestionar las ventas de una zapateria'
-        },
-        servers: [
-            {
-                url: `http://localhost:${process.env.PORT || 3002}/api`
-            }
-        ]
-    },
-    apis: ['./app.js','./routes/*.js']
-};
-
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
 // Uso de rutas
 app.use('/api/marcas', marcaRoutes);
 app.use('/api/corte_caja', corteCajaRoutes);
@@ -52,8 +36,13 @@ app.use('/api/categorias', categoriaRoutes);
 app.use('/api/modelos', modelosRoutes);
 app.use('/api/productos', productosRoutes);
 app.use('/api/proveedores', proveedoresRoutes);
-app.use('/api/users', usersRoutes);
+app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/ventas', ventasRoutes);
+app.use('/api/venta/historial', historialVentasRoutes);
+app.use('/api/colores', colorRoutes);
+app.use('/api/talla', tallasRoutes);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 // Ruta a los archivos estáticos de Angular

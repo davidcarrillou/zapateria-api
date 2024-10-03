@@ -1,4 +1,4 @@
-const Categoria = require('../models/categoria.model');
+const { Marca, Categoria, Modelo } = require('../models');
 
 // Crear una nueva categoría
 exports.create = async (req, res) => {
@@ -13,21 +13,48 @@ exports.create = async (req, res) => {
 // Obtener todas las categorías
 exports.getAll = async (req, res) => {
     try {
-      const categorias = await Categoria.findAll();
-      res.status(200).json(categorias);
+        const categorias = await Categoria.findAll({
+            include: [
+                { model: Marca, as: 'Marca', attributes: ['nombre','id_marca'] },
+                { model: Modelo, as: 'Modelo', attributes: ['nombre','id_modelos'] },
+            ],
+            attributes: [
+                'id_categoria',
+                'nombre',
+                'descripcion',
+                'fecha_registro'
+            ]
+        });
+        res.status(200).json(categorias);
     } catch (error) {
-      res.status(500).json({ error: 'Error al obtener las categorias' });
+        res.status(500).json({ error: 'Error al obtener las categorias' });
     }
-  };
+};
 
 // Obtener una categoría por ID
 exports.getById = async (req, res) => {
     try {
-        const categoria = await Categoria.findByPk(req.params.id);
-        if (!categoria) return res.status(404).json({ message: 'Categoría no encontrada' });
-        res.status(200).json(categoria);
+        const categoria = await Categoria.findOne({
+            where: { id_categoria: req.params.id },
+            include: [
+                { model: Marca, as: 'Marca', attributes: ['nombre','id_marca'] },
+                { model: Modelo, as: 'Modelo', attributes: ['nombre','id_modelos'] },
+            ],
+            attributes: [
+                'id_categoria',
+                'nombre',
+                'descripcion',
+                'fecha_registro'
+            ]
+        });
+
+        if (categoria) {
+            res.status(200).json(categoria);
+        } else {
+            res.status(404).json({ error: 'Categoría no encontrada' });
+        }
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener la categoría', error });
+        res.status(500).json({ error: error.message });
     }
 };
 

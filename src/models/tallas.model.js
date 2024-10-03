@@ -1,16 +1,24 @@
+// models/talla.js
 const { DataTypes } = require('sequelize');
-// Importa tu configuración de base de datos
 const sequelize = require('./db');
 
-const Modelo = sequelize.define('Modelo', {
-  id_modelos: {
+const Talla = sequelize.define('Talla', {
+  id_talla: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  nombre: {
-    type: DataTypes.STRING,
+  talla_mx: {
+    type: DataTypes.DECIMAL(4, 1),
     allowNull: false,
+  },
+  talla_us: {
+    type: DataTypes.DECIMAL(4, 1),
+    allowNull: true,
+  },
+  talla_eur: {
+    type: DataTypes.DECIMAL(4, 1),
+    allowNull: true,
   },
   descripcion: {
     type: DataTypes.STRING(500),
@@ -21,8 +29,8 @@ const Modelo = sequelize.define('Modelo', {
     defaultValue: DataTypes.NOW,
   },
 }, {
-  tableName: 'modelos',
-  timestamps: false
-});
+    tableName: 'tallas',
+    timestamps: false
+  });
 
-module.exports = Modelo;
+module.exports = Talla;

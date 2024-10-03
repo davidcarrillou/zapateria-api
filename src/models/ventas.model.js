@@ -7,37 +7,39 @@ const Venta = sequelize.define('Venta', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull: false
   },
   id_producto: {
     type: DataTypes.INTEGER,
-    allowNull: false
-  },
-  id_modelo: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true,
   },
   cantidad: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
-  precio: {
+  total: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  id_usuario: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   pago_con: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  metodo_pago: {
+    type: DataTypes.STRING(45),
+    allowNull: true,
   },
   cambio: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+    type: DataTypes.FLOAT,
+    allowNull: false,
   },
   fecha_registro: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    allowNull: true
-  }
+  },
 }, {
   tableName: 'ventas',
   timestamps: false
